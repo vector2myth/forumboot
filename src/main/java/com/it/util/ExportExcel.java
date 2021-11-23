@@ -28,7 +28,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 
 public class ExportExcel<T> {
 	   public void exportExcel(Collection<T> dataset, OutputStream out) {
-		      exportExcel("测试POI导出EXCEL文档", null, dataset, out, "yyyy-MM-dd");
+		      exportExcel("", null, dataset, out, "yyyy-MM-dd");
 		   }
 		   public  void exportExcel(String[] headers, Collection<T> dataset,
 		         OutputStream out) {
@@ -38,7 +38,7 @@ public class ExportExcel<T> {
 		         OutputStream out, String pattern) {
 		      exportExcel("测试POI导出EXCEL文档", headers, dataset, out, pattern);
 		   }
-	
+
 	   public void exportExcel(String title, String[] headers,
 		         Collection<T> dataset, OutputStream out, String pattern) {
 		      // 声明一个工作薄
@@ -79,7 +79,7 @@ public class ExportExcel<T> {
 		      font2.setBoldweight(HSSFFont.BOLDWEIGHT_NORMAL);
 		      // 把字体应用到当前的样式
 		      style2.setFont(font2);
-		     
+
 		      // 声明一个画图的顶级管理器
 		      HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 		      // 定义注释的大小和位置,详见文档
@@ -131,7 +131,7 @@ public class ExportExcel<T> {
 		                   SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		                   textValue = sdf.format(date);
 		                }  else{
-		         
+
 		                   //其它数据类型都当作字符串简单处理
 		                   if(value==null)
 		                	   textValue="";
@@ -140,7 +140,7 @@ public class ExportExcel<T> {
 		                }
 		                //如果不是图片数据，就利用正则表达式判断textValue是否全部由数字组成
 		                if(textValue!=null){
-		                   Pattern p = Pattern.compile("^\\d+(\\.\\d+)?$");  
+		                   Pattern p = Pattern.compile("^\\d+(\\.\\d+)?$");
 		                   Matcher matcher = p.matcher(textValue);
 		                   if(matcher.matches()){
 		                      //是数字当作double处理
@@ -177,7 +177,7 @@ public class ExportExcel<T> {
 
 
     public static void main(String[] args) throws Exception {
-         
+
     }
-} 
+}
 
