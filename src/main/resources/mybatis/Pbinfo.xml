@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.PbinfoDAO">
+    <resultMap type="com.it.entity.Pbinfo" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="memberid" property="memberid" jdbcType="INTEGER"/>
+      <result column="pbmemberid" property="pbmemberid" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    <insert id="add" parameterType="com.it.entity.Pbinfo">
+      insert into pbinfo values(null,#{memberid},#{pbmemberid})
+    </insert>
+    
+    <select id="selectOne" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from pbinfo where memberid=#{memberid} and pbmemberid=#{pbmemberid}
+    </select>
+    
+    <select id="selectFans" parameterType="Int" resultMap="BaseResultMap">
+      select * from pbinfo where pbmemberid=#{pbmemberid}
+    </select>
+
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+        select * from pbinfo where 1=1
+        <if test="memberid!=null and memberid!=''">
+            AND memberid=#{memberid}
+        </if>
+        ORDER BY id DESC
+    </select>
+
+
+    <delete id="delete" parameterType="com.it.entity.Pbinfo">
+      delete from pbinfo where id=#{id}
+    </delete>
+    
+    <select id="selectPbmember" parameterType="Int" resultMap="BaseResultMap">
+      select * from pbinfo where memberid=#{memberid}
+    </select>
+    
+    <delete id="deletePingbi" parameterType="Int">
+      delete from pbinfo where id=#{id}
+    </delete>
+    
+</mapper>
+

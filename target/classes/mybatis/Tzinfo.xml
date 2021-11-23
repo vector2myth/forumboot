@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.TzinfoDAO">
+    <resultMap type="com.it.entity.Tzinfo" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="fid" property="fid" jdbcType="INTEGER"/>
+      <result column="sid" property="sid" jdbcType="INTEGER"/>
+      <result column="title" property="title" jdbcType="VARCHAR"/>
+      <result column="note" property="note" jdbcType="VARCHAR"/>
+      <result column="author" property="author" jdbcType="INTEGER"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+      <result column="dznum" property="dznum" jdbcType="INTEGER"/>
+      <result column="looknum" property="looknum" jdbcType="INTEGER"/>
+      <result column="isjh" property="isjh" jdbcType="VARCHAR"/>
+      <result column="istop" property="istop" jdbcType="VARCHAR"/>
+      <result column="canht" property="canht" jdbcType="VARCHAR"/>
+      <result column="filename" property="filename" jdbcType="VARCHAR"/>
+        <result column="isfb" property="isfb" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <update id="update" parameterType="com.it.entity.Tzinfo">
+        update tzinfo
+        <set>
+            <if test="fid!=null and fid!=''"> fid=#{fid},</if>
+            <if test="sid!=null and sid!=''"> sid=#{sid},</if>
+            <if test="title!=null and title!=''"> title=#{title},</if>
+            <if test="note!=null and note!=''"> note=#{note},</if>
+            <if test="dznum &gt; 0"> dznum=#{dznum},</if>
+            <if test="looknum &gt; 0"> looknum=#{looknum},</if>
+            <if test="isjh!=null and isjh!=''"> isjh=#{isjh},</if>
+            <if test="istop!=null and istop!=''"> istop=#{istop},</if>
+            <if test="canht!=null and canht!=''"> canht=#{canht},</if>
+            <if test="filename!=null and filename!=''"> filename=#{filename},</if>
+            <if test="isfb!=null and isfb!=''"> isfb=#{isfb},</if>
+        </set>
+        where id=#{id}
+    </update>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from tzinfo where 1=1
+      <if test="key!=null and key!=''">
+        AND ( title LIKE "%"#{key}"%" or note like "%"#{key}"%" or author in (select id from member where tname like "%"#{key}"%"))
+      </if>
+        <if test="fid!=null and fid!=''">
+            AND fid=#{fid}
+        </if>
+        <if test="sid!=null and sid!=''">
+            AND sid=#{sid}
+        </if>
+        <if test="author!=null and author!=''">
+            AND author=#{author}
+        </if>
+        <if test="savetime!=null and savetime!=''">
+            AND date_format(savetime,'%Y-%m-%d')=#{savetime}
+        </if>
+        <if test="istop!=null and istop!=''">
+            AND istop=#{istop}
+        </if>
+        <if test="isfb!=null and isfb!=''">
+            AND isfb=#{isfb}
+        </if>
+        <if test="parlist!=null and parlist.size>0">
+            and author !=
+            <foreach collection="parlist" index="index" item="item"  separator="," >
+                #{item}
+            </foreach>
+        </if>
+
+        <choose>
+            <when test="ph!=null and ph!=''">
+                order by looknum desc
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+
+    </select>
+    
+    <insert id="add" parameterType="com.it.entity.Tzinfo">
+      insert into tzinfo values(null,#{fid},#{sid},#{title},#{note},#{author},#{savetime},#{dznum},#{looknum},#{isjh},#{istop},#{updatetime},#{canht},#{filename},#{isfb})
+    </insert>
+
+    <select id="findById" parameterType="Int" resultType="com.it.entity.Tzinfo">
+      select * from tzinfo where id=#{id}
+    </select>
+
+    <delete id="delete" parameterType="Int">
+        DELETE FROM tzinfo WHERE ID = #{id}
+    </delete>
+
+
+    
+    
+</mapper>
+

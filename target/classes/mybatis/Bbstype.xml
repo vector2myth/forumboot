@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.BbstypeDAO">
+    <resultMap type="com.it.entity.Bbstype" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="typename" property="typename" jdbcType="VARCHAR"/>
+      <result column="fatherid" property="fatherid" jdbcType="VARCHAR"/>
+      <result column="delstatus" property="delstatus" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <update id="update" parameterType="com.it.entity.Bbstype">
+        update bbstype
+        <set>
+            <if test="typename!=null and typename!=''">
+                typename=#{typename},
+            </if>
+            <if test="delstatus!=null and delstatus!=''">
+                delstatus=#{delstatus},
+            </if>
+        </set>
+         where id=#{id}
+    </update>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from bbstype where delstatus=0
+        <if test="key!=null and key!=''">
+            AND typename LIKE "%"#{key}"%"
+        </if>
+      <if test="fatherid!=null and fatherid!=''">
+          AND fatherid=#{fatherid}
+      </if>
+        ORDER  by id DESC
+     </select>
+
+    <insert id="add" parameterType="com.it.entity.Bbstype">
+      insert into bbstype values(null,#{typename},#{fatherid},#{delstatus})
+    </insert>
+    
+    <select id="findById" parameterType="Int" resultType="com.it.entity.Bbstype">
+      select * from bbstype where id=#{id}
+    </select>
+    
+
+
+    
+
+</mapper>
+

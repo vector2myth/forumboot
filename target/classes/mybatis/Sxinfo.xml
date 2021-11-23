@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.SxinfoDAO">
+    <resultMap type="com.it.entity.Sxinfo" id="BaseResultMap">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="memberid" property="memberid" jdbcType="INTEGER"/>
+        <result column="sxmemberid" property="sxmemberid" jdbcType="INTEGER"/>
+        <result column="note" property="note" jdbcType="VARCHAR"/>
+        <result column="hfnote" property="hfnote" jdbcType="VARCHAR"/>
+        <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.it.entity.Sxinfo">
+      insert into sxinfo values(null,#{memberid},#{sxmemberid},#{note},#{hfnote},#{savetime})
+    </insert>
+
+
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+        select * from sxinfo where 1=1
+        <if test="memberid!=null and memberid!=''">
+            AND memberid=#{memberid}
+        </if>
+        <if test="sxmemberid!=null and sxmemberid!=''">
+            AND sxmemberid=#{sxmemberid}
+        </if>
+        ORDER BY id DESC
+    </select>
+
+
+
+    <update id="updateSxHf" parameterType="HashMap">
+      update sxinfo set hfnote=#{hfnote} where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="InT">
+      delete from sxinfo where id=#{id}
+    </delete>
+
+
+</mapper>
+

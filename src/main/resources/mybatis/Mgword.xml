@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.MgwordDAO">
+    <resultMap type="com.it.entity.Mgword" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="wordnote" property="wordnote" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <insert id="add" parameterType="com.it.entity.Mgword">
+      insert into mgword values(null,#{wordnote})
+    </insert>
+    
+    <update id="update" parameterType="com.it.entity.Mgword">
+      update mgword set wordnote=#{wordnote} where id=#{id}
+    </update>
+    
+    <delete id="delete" parameterType="Int">
+      delete from mgword where id=#{id}
+    </delete>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from mgword where 1=1
+      <if test="key!=null and key!=''">
+          AND wordnote LIKE "%"#{key}"%"
+      </if>
+      order by id desc
+    </select>
+    
+    <select id="findById" parameterType="Int" resultType="com.it.entity.Mgword">
+      select * from mgword where id=#{id}
+    </select>
+    
+
+</mapper>
+

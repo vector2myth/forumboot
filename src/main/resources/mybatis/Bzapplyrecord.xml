@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.BzapplyrecordDAO">
+    <resultMap type="com.it.entity.Bzapplyrecord" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="fid" property="fid" jdbcType="INTEGER"/>
+      <result column="note" property="note" jdbcType="VARCHAR"/>
+      <result column="memberid" property="memberid" jdbcType="INTEGER"/>
+      <result column="shstatus" property="shstatus" jdbcType="VARCHAR"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+
+    <insert id="add" parameterType="com.it.entity.Bzapplyrecord">
+      insert into bzapplyrecord values(null,#{fid},#{note},#{memberid},#{shstatus},#{savetime})
+    </insert>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from bzapplyrecord where 1=1
+      <if test="memberid!=null and memberid!=''">
+          AND memberid=#{memberid}
+      </if>
+        <if test="shstatus!=null and shstatus!=''">
+            AND shstatus=#{shstatus}
+        </if>
+        <if test="fid!=null and fid!=''">
+            AND fid=#{fid}
+        </if>
+      order by id desc
+    </select>
+
+    <select id="findById" parameterType="Int" resultType="com.it.entity.Bzapplyrecord">
+        select * from bzapplyrecord where ID = #{id}
+
+    </select>
+
+    <update id="update" parameterType="com.it.entity.Bzapplyrecord">
+        update bzapplyrecord
+        <set>
+            <if test="shstatus!=null and shstatus!=''"> shstatus=#{shstatus}</if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    <delete id="delete" parameterType="Int">
+      delete from bzapplyrecord where id=#{id}
+    </delete>
+
+</mapper>
+

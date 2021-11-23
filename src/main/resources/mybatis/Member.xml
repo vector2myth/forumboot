@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.MemberDAO">
+    <resultMap type="com.it.entity.Member" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="uname" property="uname" jdbcType="VARCHAR"/>
+      <result column="upass" property="upass" jdbcType="VARCHAR"/>
+      <result column="email" property="email" jdbcType="VARCHAR"/>
+      <result column="tname" property="tname" jdbcType="VARCHAR"/>
+      <result column="sex" property="sex" jdbcType="VARCHAR"/>
+      <result column="addr" property="addr" jdbcType="VARCHAR"/>
+      <result column="qq" property="qq" jdbcType="VARCHAR"/>
+      <result column="tel" property="tel" jdbcType="VARCHAR"/>
+      <result column="delstatus" property="delstatus" jdbcType="VARCHAR"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+      <result column="isjy" property="isjy" jdbcType="VARCHAR"/>
+      <result column="filename" property="filename" jdbcType="VARCHAR"/>
+      <result column="isfh" property="isfh" jdbcType="VARCHAR"/>
+      <result column="shstatus" property="shstatus" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <update id="update" parameterType="com.it.entity.Member">
+        update member
+         <set>
+             <if test="upass!=null and upass!=''"> upass=#{upass},</if>
+             <if test="email!=null and email!=''"> email=#{email},</if>
+             <if test="tname!=null and tname!=''"> tname=#{tname},</if>
+             <if test="sex!=null and sex!=''"> sex=#{sex},</if>
+             <if test="addr!=null and addr!=''"> addr=#{addr},</if>
+             <if test="qq!=null and qq!=''"> qq=#{qq},</if>
+             <if test="tel!=null and tel!=''"> tel=#{tel},</if>
+             <if test="delstatus!=null and delstatus!=''"> delstatus=#{delstatus},</if>
+             <if test="isjy!=null and isjy!=''"> isjy=#{isjy},</if>
+             <if test="filename!=null and filename!=''"> filename=#{filename},</if>
+             <if test="isfh!=null and isfh!=''"> isfh=#{isfh},</if>
+             <if test="shstatus!=null and shstatus!=''"> shstatus=#{shstatus},</if>
+         </set>
+          where id=#{id}
+    </update>
+    
+
+    <insert id="add" parameterType="com.it.entity.Member">
+      insert into member values(null,#{uname},#{upass},#{email},#{tname},#{sex},#{addr},#{qq},#{tel},#{delstatus},#{savetime},#{isjy},#{filename},#{isfh},#{shstatus})
+    </insert>
+    
+
+    <select id="findById" parameterType="Int" resultType="com.it.entity.Member">
+      select * from member where id=#{id}
+    </select>
+    
+
+     <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+       select * from member where 1=1 and delstatus=0
+       <if test="key!=null">
+         and (uname like "%"#{key}"%" or tname like "%"#{key}"%")
+       </if>
+       <if test="uname!=null and uname!=''">
+         and uname=#{uname}
+       </if>
+         <if test="upass!=null and upass!=''">
+             and upass=#{upass}
+         </if>
+         <if test="shstatus!=null and shstatus!=''">
+             and shstatus=#{shstatus}
+         </if>
+       <if test="email!=null">
+         and email=#{email}
+       </if>
+       order by id desc
+     </select>
+     
+
+     
+     
+     
+	
+	
+</mapper>
+

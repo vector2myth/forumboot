@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.LookrecordDAO">
+    <resultMap type="com.it.entity.Lookrecord" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="tzid" property="tzid" jdbcType="VARCHAR"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+        <result column="fid" property="fid" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from Lookrecord where 1=1
+       <if test="tzid!=null and tzid!=''">
+           AND tzid=#{tzid}
+       </if>
+
+      order by id desc
+    </select>
+
+
+
+    <select id="selectdistinct" parameterType="HashMap" resultMap="BaseResultMap">
+        select COUNT(*),tzid  from Lookrecord where 1=1
+        <if test="fid!=null and fid!=''">
+            and fid=#{fid}
+        </if>
+        <if test="weektime!=null and weektime!='' and nowtime!=null and nowtime!=''">
+            AND savetime &gt;= #{weektime} and savetime &lt;= #{nowtime}
+        </if>
+        <if test="monthtime!=null and monthtime!='' and nowtime!=null and nowtime!=''">
+            AND savetime &gt;= #{monthtime} and savetime &lt;= #{nowtime}
+        </if>
+        GROUP BY tzid  order by COUNT(*) desc
+    </select>
+    
+    <insert id="add" parameterType="com.it.entity.Lookrecord">
+      insert into Lookrecord values(null,#{tzid},#{savetime},#{fid})
+    </insert>
+    
+
+    
+
+</mapper>
+

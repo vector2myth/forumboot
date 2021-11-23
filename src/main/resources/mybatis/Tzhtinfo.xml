@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.dao.TzhtinfoDAO">
+    <resultMap type="com.it.entity.Tzhtinfo" id="BaseResultMap">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="tzid" property="tzid" jdbcType="INTEGER"/>
+      <result column="note" property="note" jdbcType="VARCHAR"/>
+      <result column="author" property="author" jdbcType="INTEGER"/>
+      <result column="savetime" property="savetime" jdbcType="VARCHAR"/>
+      <result column="dznum" property="dznum" jdbcType="INTEGER"/>
+      <result column="canht" property="canht" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <insert id="add" parameterType="com.it.entity.Tzhtinfo">
+      insert into tzhtinfo values(null,#{tzid},#{note},#{author},#{savetime},#{dznum},#{canht})
+    </insert>
+    
+    <select id="selectAll" parameterType="HashMap" resultMap="BaseResultMap">
+      select * from tzhtinfo where 1=1
+       <if test="author!=null and author!=''">
+           and author=#{author}
+       </if>
+        <if test="tzid!=null and tzid!=''">
+            and tzid=#{tzid}
+        </if>
+       ORDER BY id desc
+    </select>
+
+    <select id="selectMyHf" parameterType="HashMap" resultMap="BaseResultMap">
+        select DISTINCT (tzid) AS tzid from tzhtinfo where 1=1
+        <if test="author!=null and author!=''">
+            and author=#{author}
+        </if>
+        ORDER BY id desc
+    </select>
+
+
+    <select id="findById" parameterType="Int" resultType="com.it.entity.Tzhtinfo">
+      select * from tzhtinfo where id=#{id}
+    </select>
+    
+    <update id="updateDz" parameterType="com.it.entity.Tzhtinfo">
+      update tzhtinfo set dznum=#{dznum} where id=#{id}
+    </update>
+    
+    <delete id="delete" parameterType="Int">
+      delete from tzhtinfo where id=#{id}
+    </delete>
+    
+
+</mapper>
+
